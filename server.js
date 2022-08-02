@@ -15,4 +15,4 @@ app.get('/',(req,res)=>{
    
 })
 
-app.listen(3001,()=>console.log("SERVER LISTENING AT 3000"))
+app.listen(process.env.PORT || 3001,()=>console.log("SERVER LISTENING AT 3000"))
