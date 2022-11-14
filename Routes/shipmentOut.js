@@ -30,15 +30,29 @@ queryPromise_extract = (tNum)=>{
     })
 }
 
-queryPromise_insert = (data, req)=>{
+queryPromise_checkValid = (req)=>{
     return new Promise((resolve,reject)=>{
-        pool.query(`insert into shipmentOut values(null,${req.body.tokenNumber},${req.body.dateIn},"${data.timeIn}",${req.body.tareWeight},${req.body.filledDate},"${req.body.arrivalAtGantry}",${req.body.temperature},${req.body.density}, ${req.body.grossWeight},${data.netWeight},${data.WBD},${data.diff},${req.body.invoiceDate},${req.body.dateOut},"${req.body.timeOut}",${req.body.pointNumber},"${req.body.filledBy}","${req.body.checkedBy}","${req.body.sealedBy}",${req.body.tankNum},${data.litres},${data.volumeat85},timediff(ArrivalAtGantry,"${data.timeIn}"),timediff(timeFilled,arrivalAtGantry),timediff(TimeOut,timeFilled),timediff(timeOut,"${data.timeIn}"),null)`,(err,results)=>{
-                        if(err){
-                            return reject(err)
-                        }
-                        return resolve(results)
-                    })
+        pool.query(`select tlNumber from shipmentin where tokennumber = ${req.tokenNumber}`,(err,results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        })
     })
+}
+
+queryPromise_insert = (data, req)=>{
+    if(queryPromise_checkValid(req)!=null){
+        return new Promise((resolve,reject)=>{
+            pool.query(`insert into shipmentOut values(null,${req.body.tokenNumber},${req.body.dateIn},"${data.timeIn}",${req.body.tareWeight},${req.body.filledDate},"${req.body.arrivalAtGantry}",${req.body.temperature},${req.body.density}, ${req.body.grossWeight},${data.netWeight},${data.WBD},${data.diff},${req.body.invoiceDate},${req.body.dateOut},"${req.body.timeOut}",${req.body.pointNumber},"${req.body.filledBy}","${req.body.checkedBy}","${req.body.sealedBy}",${req.body.tankNum},${data.litres},${data.volumeat85},timediff(ArrivalAtGantry,"${data.timeIn}"),timediff(timeFilled,arrivalAtGantry),timediff(TimeOut,timeFilled),timediff(timeOut,"${data.timeIn}"),null)`,(err,results)=>{
+                            if(err){
+                                return reject(err)
+                            }
+                            return resolve(results)
+                        })
+        })
+    }
+    return console.log("Token number doesnot exist!")
 }
 
 //deletion end point

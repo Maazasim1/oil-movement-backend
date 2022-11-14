@@ -9,13 +9,15 @@ app.use(bodyParser.urlencoded({extended:true}))
 const router = require('./Routes/shipmentIn')
 const router2 = require('./Routes/shipmentOut')
 const router3 = require('./Routes/decantingIn')
+const routerAdmin = require('./Routes/admin')
 
 
 app.use('/route',router)
 app.use('/route2',router2)
 app.use('/route3',router3)
+app.use('/router', routerAdmin)
 app.get('/',(req,res)=>{
    
 })
 
-app.listen(3001,()=>console.log("SERVER LISTENING AT 3001"))
+app.listen(3001 || process.env.PORT,()=>console.log("SERVER LISTENING AT 3001"))
