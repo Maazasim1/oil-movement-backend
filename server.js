@@ -20,4 +20,4 @@ app.get('/',(req,res)=>{
    
 })
 
-app.listen((3001 || process.env.PORT),()=>console.log("SERVER LISTENING AT 3001"))
+app.listen(( process.env.PORT || 3001),()=>console.log("SERVER LISTENING AT 3001"))
