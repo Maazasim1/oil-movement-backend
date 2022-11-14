@@ -60,10 +60,12 @@ const query_promise_getBowserSummary = async()=>{
    return results_f; 
 }
 
-router.get('/admin',async(req,res)=>{
-    if(req.id=1){
+
+
+router.get('/admin',async (req,res)=>{
+    if(req.body.id==1){
         try{
-            const results = await query_promiseGetOMSDailyShipment(req.product);
+            const results = await query_promiseGetOMSDailyShipment(req.body.product);
             console.log(results);
             res.send(results)
         }
@@ -72,10 +74,7 @@ router.get('/admin',async(req,res)=>{
             res.send(error);
         }
     }
-})
-
-router.get('/admin',async (req,res)=>{
-    if(req.id=2){
+    else if(req.body.id==2){
         try{
             const results =await query_promise_getBowserSummary();
             console.log(results)
