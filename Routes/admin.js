@@ -62,7 +62,7 @@ const query_promise_getBowserSummary = async()=>{
 
 
 
-router.get('/admin',async (req,res)=>{
+router.post('/admin',async (req,res)=>{
     if(req.body.id==1){
         try{
             const results = await query_promiseGetOMSDailyShipment(req.body.product);
