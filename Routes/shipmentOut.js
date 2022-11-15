@@ -30,29 +30,15 @@ queryPromise_extract = (tNum)=>{
     })
 }
 
-queryPromise_checkValid = (req)=>{
-    return new Promise((resolve,reject)=>{
-        pool.query(`select tlNumber from shipmentin where tokennumber = ${req.tokenNumber}`,(err,results)=>{
-            if(err){
-                return reject(err)
-            }
-            return resolve(results)
-        })
-    })
-}
-
 queryPromise_insert = (data, req)=>{
-    if(queryPromise_checkValid(req)!=null){
-        return new Promise((resolve,reject)=>{
-            pool.query(`insert into shipmentOut values(null,${req.body.tokenNumber},${req.body.dateIn},"${data.timeIn}",${req.body.tareWeight},${req.body.filledDate},"${req.body.arrivalAtGantry}",${req.body.temperature},${req.body.density}, ${req.body.grossWeight},${data.netWeight},${data.WBD},${data.diff},${req.body.invoiceDate},${req.body.dateOut},"${req.body.timeOut}",${req.body.pointNumber},"${req.body.filledBy}","${req.body.checkedBy}","${req.body.sealedBy}",${req.body.tankNum},${data.litres},${data.volumeat85},timediff(ArrivalAtGantry,"${data.timeIn}"),timediff(timeFilled,arrivalAtGantry),timediff(TimeOut,timeFilled),timediff(timeOut,"${data.timeIn}"),null)`,(err,results)=>{
-                            if(err){
-                                return reject(err)
-                            }
-                            return resolve(results)
-                        })
-        })
-    }
-    return console.log("Token number doesnot exist!")
+    return new Promise((resolve,reject)=>{
+        pool.query(`insert into shipmentOut values(null,${req.body.tokenNumber},${req.body.dateIn},"${data.timeIn}",${req.body.tareWeight},${req.body.filledDate},"${req.body.arrivalAtGantry}",${req.body.temperature},${req.body.density}, ${req.body.grossWeight},${data.netWeight},${data.WBD},${data.diff},${req.body.invoiceDate},${req.body.dateOut},"${req.body.timeOut}",${req.body.pointNumber},"${req.body.filledBy}","${req.body.checkedBy}","${req.body.sealedBy}",${req.body.tankNum},${data.litres},${data.volumeat85},timediff(ArrivalAtGantry,"${data.timeIn}"),timediff(timeFilled,arrivalAtGantry),timediff(TimeOut,timeFilled),timediff(timeOut,"${data.timeIn}"),null)`,(err,results)=>{
+                        if(err){
+                            return reject(err)
+                        }
+                        return resolve(results)
+                    })
+    })
 }
 
 //deletion end point
@@ -96,6 +82,7 @@ queryPromise_edit = (data,req)=>{
 //post request
 router.post('/shipmentOut',async(req,res)=>{
     try{
+        console.log(req.body.tokenNumber)
         const result1 = await queryPromise_extract(req.body.tokenNumber)
         console.log(result1[0].timeIn)
         let nW,WBD,diffWBD;
@@ -106,8 +93,10 @@ router.post('/shipmentOut',async(req,res)=>{
         litres = litAt60(50000,req.body.density,req.body.temperature)
         //Calculating volume at 85
         volat85 = Volumeat85(50000,req.body.density,req.body.temperature)
+        console.log(`Litres at 60 are: ${litres}`)
         console.log(`Volume at 85 is ${volat85}`)
         let data = {
+            "result": [result1],
             "netWeight": nW,
             "WBD": WBD,
             "diff": diffWBD,
