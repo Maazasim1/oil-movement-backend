@@ -56,7 +56,7 @@ queryPromise_Edit = (req)=>{
     console.log(sql)
     return new Promise((resolve,reject)=>{
         pool.query(sql,(error,results)=>{
-            if(err){
+            if(error){
                 return reject(error)
             }
             return resolve(results)
