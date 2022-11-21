@@ -42,7 +42,7 @@ queryPromise_Insert = (req)=>{
 }
 
 //Edit data QueryPromise
-queryPromise_Edit = (req)=>{
+queryPromise_Edit = (req,res)=>{
     if(Object.keys(req.body).length===0){
         res.send("No values to edit!")
     }
@@ -56,7 +56,7 @@ queryPromise_Edit = (req)=>{
     console.log(sql)
     return new Promise((resolve,reject)=>{
         pool.query(sql,(error,results)=>{
-            if(err){
+            if(error){
                 return reject(error)
             }
             return resolve(results)
@@ -67,7 +67,7 @@ queryPromise_Edit = (req)=>{
 //Delete data by serialNumber QueryPromise
 queryPromise_Delete = (serialNumber)=>{
     return new Promise((resolve,reject)=>{
-        pool.query(`delete from shipmentin where serialNumber = ${req.body.serialNumber}`,(error,results)=>{
+        pool.query(`delete from shipmentin where serialNumber = ${serialNumber}`,(error,results)=>{
             if(error){
                 return reject(error)
             }
@@ -118,7 +118,7 @@ router.post('/shipmentIn',async (req,res)=>{
 //Edit EndPoint
 router.put('/shipmentIn',async (req,res)=>{
     try{
-        const results =await queryPromise_Edit(req);
+        const results =await queryPromise_Edit(req,res);
         console.log(results)
         res.send(results)
     }
