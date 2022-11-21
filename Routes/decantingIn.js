@@ -67,7 +67,7 @@ queryPromise_Edit = (req)=>{
 //Delete data by serialNumber QueryPromise
 queryPromise_Delete = (serialNumber)=>{
     return new Promise((resolve,reject)=>{
-        pool.query(`delete from shipmentin where serialNumber = ${req.body.serialNumber}`,(error,results)=>{
+        pool.query(`delete from shipmentin where serialNumber = ${serialNumber}`,(error,results)=>{
             if(error){
                 return reject(error)
             }
