@@ -1,4 +1,4 @@
-const cors = require('cors')
+    const cors = require('cors')
 const express = require("express")
 const app = express()
 const pool = require('./Middleware/connection')
@@ -21,3 +21,4 @@ app.get('/',(req,res)=>{
 })
 
 app.listen(( process.env.PORT || 3001),()=>console.log("SERVER LISTENING AT 3001"))
+    module.exports=app;
