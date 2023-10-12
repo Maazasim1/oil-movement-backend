@@ -1,4 +1,5 @@
 const Volumeat85 = (litres,Density,temperature)=>{
+    console.log("Density"+Density);
     if(Density==0){
         let a=0;
     }
@@ -215,6 +216,8 @@ const Volumeat85 = (litres,Density,temperature)=>{
 
     else if(Density >= 0.952 && Density < 1) 
        a = 0.00038
+
+    console.log("a= "+a);
 
 
     let b = 85-temperature;
