@@ -32,7 +32,7 @@ queryPromise_extract = (tNum)=>{
 
 queryPromise_insert = (data, req)=>{
     return new Promise((resolve,reject)=>{
-        pool.query(`insert into shipmentOut values(null,${req.body.tokenNumber},${req.body.dateIn},"${data.timeIn}",${req.body.tareWeight},${req.body.filledDate},"${req.body.arrivalAtGantry}",${req.body.temperature},${req.body.density}, ${req.body.grossWeight},${data.netWeight},${data.WBD},${data.diff},${req.body.invoiceDate},${req.body.dateOut},"${req.body.timeOut}",${req.body.pointNumber},"${req.body.filledBy}","${req.body.checkedBy}","${req.body.sealedBy}",${req.body.tankNum},${data.litres},${data.volumeat85},timediff(ArrivalAtGantry,"${data.timeIn}"),timediff(timeFilled,arrivalAtGantry),timediff(TimeOut,timeFilled),timediff(timeOut,"${data.timeIn}"),null)`,(err,results)=>{
+        pool.query(`insert into shipmentOut values(null,${req.body.tokenNumber},${req.body.dateIn},"${data.timeIn}",${req.body.tareWeight},${req.body.filledDate},"${req.body.arrivalAtGantry}",${req.body.temperature},${req.body.densityKgLtr}, ${req.body.grossWeight},${data.netWeight},${data.WBD},${data.diff},${req.body.invoiceDate},${req.body.dateOut},"${req.body.timeOut}",${req.body.pointNumber},"${req.body.filledBy}","${req.body.checkedBy}","${req.body.sealedBy}",${req.body.tankNum},${data.litres},${data.volumeat85},timediff(ArrivalAtGantry,"${data.timeIn}"),timediff(timeFilled,arrivalAtGantry),timediff(TimeOut,timeFilled),timediff(timeOut,"${data.timeIn}"),null)`,(err,results)=>{
                         if(err){
                             return reject(err)
                         }
@@ -86,12 +86,12 @@ router.post('/shipmentOut',async(req,res)=>{
         const result1 = await queryPromise_extract(req.body.tokenNumber)
         let nW,WBD,diffWBD;
         nW = req.body.grossWeight-result1[0].tareWeight
-        WBD = result1[0].quantity*req.body.density
+        WBD = result1[0].quantity*req.body.densityKgLtr
         diffWBD = WBD-nW
         //Calculating litres at 60
-        litres = litAt60(50000,req.body.density,req.body.temperature)
+        litres = litAt60(50000,req.body.densityKgLtr,req.body.temperature)
         //Calculating volume at 85
-        volat85 = Volumeat85(50000,req.body.density,req.body.temperature)
+        volat85 = Volumeat85(50000,req.body.densityKgLtr,req.body.temperature)
         console.log(`Litres at 60 are: ${litres}`)
         console.log(`Volume at 85 is ${volat85}`)
         let data = {
