@@ -82,6 +82,7 @@ queryPromise_edit = (data,req)=>{
 //post request
 router.post('/shipmentOut',async(req,res)=>{
     try{
+        console.log(req.body)
         const result1 = await queryPromise_extract(req.body.tokenNumber)
         let nW,WBD,diffWBD;
         nW = req.body.grossWeight-result1[0].tareWeight
