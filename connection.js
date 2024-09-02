@@ -3,10 +3,10 @@ var mysql = require('mysql');
 
 var pool = mysql.createPool({
   connectionLimit:10,
-  host: "us-cdbr-east-06.cleardb.net",
-  user: "b1e8b31636d4a2",
-  password: "7bb7087a",
-  database:"heroku_684b6f6454b034d"
+  host: " sql12.freemysqlhosting.net",
+  user: "sql12729144",
+  password: "JGP15VwDJq",
+  database:"sql12729144"
 });
 
 pool.getConnection((err,connection)=> {
